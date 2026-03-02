@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CollectibleItem : MonoBehaviour
 {
@@ -6,17 +7,17 @@ public class CollectibleItem : MonoBehaviour
     public AudioClip collectSound;
     public float volume = 1f;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            // 播放音效
-            if (collectSound != null)
-                AudioSource.PlayClipAtPoint(collectSound, transform.position, volume);
+    private bool hasBeenCollected = false;
 
-            // 原来的拾取逻辑
-            GameManager.Instance.CollectItem();
-            gameObject.SetActive(false);
-        }
+    public void OnInteract()
+    {
+        if (hasBeenCollected) return;
+        hasBeenCollected = true;
+
+        if (collectSound != null)
+            AudioSource.PlayClipAtPoint(collectSound, transform.position, volume);
+
+        GameManager.Instance.CollectItem();
+        gameObject.SetActive(false);
     }
 }

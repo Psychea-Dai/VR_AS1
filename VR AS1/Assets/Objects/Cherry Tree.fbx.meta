@@ -3,7 +3,42 @@ guid: 7097124d38a1c476c81c959bbcc5f6c9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176CherryBark01
+    second: {fileID: 2100000, guid: ea27cb0f23f9d4ec0b57054287dda917, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176CherryBranch01
+    second: {fileID: 2100000, guid: 5a22ddbd9e6a0461f9f7884315d6062b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176CherryBud
+    second: {fileID: 2100000, guid: 0f968b6496a454b94b86058c5c4e5ebf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176CherryFlower
+    second: {fileID: 2100000, guid: b9f75423186be4651b14ed9a32da9a68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176CherryFlowerStalk
+    second: {fileID: 2100000, guid: 4b93cfd659f274c4a9f2edb9262a380c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176FCT_Rock
+    second: {fileID: 2100000, guid: e4455889f32744cdfba7cee5c5f7533c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v176Tree_Knot
+    second: {fileID: 2100000, guid: ea085366906c7462baa1d4d4193ac0a8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

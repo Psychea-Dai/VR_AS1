@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyChaser : MonoBehaviour
 {
@@ -7,20 +8,20 @@ public class EnemyChaser : MonoBehaviour
     public float catchDistance = 0.8f;  // 多近算抓到玩家
     public float activateDelay = 5f;    // 游戏开始几秒后敌人开始移动
     
-    private bool isActive = false;
+     private bool isActive = false;
+    private bool isCoolingDown = false;  // 新增：冷却中不再重复触发
     private float timer = 0f;
-    
+    private Vector3 spawnPosition;
+
     void Start()
     {
-    // 自动找到主摄像机，不用手动拖拽
-    if (playerTransform == null)
-        playerTransform = Camera.main.transform;
-    
-    Invoke("Activate", activateDelay);
+        spawnPosition = transform.position;  // 记住初始位置
     }
 
     void Update()
     {
+        if (isCoolingDown) return;  // 冷却期间完全停止
+
         if (!isActive)
         {
             timer += Time.deltaTime;
@@ -28,48 +29,55 @@ public class EnemyChaser : MonoBehaviour
                 isActive = true;
             return;
         }
-        
+
         if (playerTransform == null) return;
-        
-        // 只追踪水平方向，不会飞起来
+
         Vector3 targetPos = new Vector3(
             playerTransform.position.x,
             transform.position.y,
             playerTransform.position.z
         );
-        
-        // 朝玩家移动
+
         transform.position = Vector3.MoveTowards(
             transform.position, targetPos, moveSpeed * Time.deltaTime
         );
-        
-        // 面朝玩家
+
         transform.LookAt(new Vector3(
             playerTransform.position.x,
-            transform.position.y,
+            playerTransform.position.y,
             playerTransform.position.z
         ));
-        
-        // 检测是否抓到玩家
-        float distance = Vector3.Distance(transform.position, playerTransform.position);
+
+        float distance = Vector3.Distance(new Vector3(transform.position.x,playerTransform.position.y,transform.position.z), playerTransform.position);
         if (distance <= catchDistance)
         {
             GameManager.Instance.PlayerCaught();
+            StartCoroutine(CatchCooldown());
         }
     }
-    
-    // 重置敌人位置（玩家死亡后调用）
+
+    IEnumerator CatchCooldown()
+    {
+        isCoolingDown = true;
+        isActive = false;
+
+        // 瞬间传回出生点
+        transform.position = spawnPosition;
+
+        yield return new WaitForSeconds(4f);  // 给玩家4秒缓冲
+
+        isCoolingDown = false;
+        isActive = true;
+    }
+
     public void ResetPosition(Vector3 startPos)
     {
+        StopAllCoroutines();
         transform.position = startPos;
+        spawnPosition = startPos;
+        isCoolingDown = false;
         isActive = false;
         timer = 0f;
-        // 3秒后重新激活
-        Invoke("Reactivate", 3f);
-    }
-    
-    void Reactivate()
-    {
-        isActive = true;
+        StartCoroutine(CatchCooldown());
     }
 }

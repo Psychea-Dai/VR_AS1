@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     
     void Awake()
     {
+        collectedCount = 0;
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }

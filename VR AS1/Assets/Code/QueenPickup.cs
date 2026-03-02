@@ -6,31 +6,51 @@ public class QueenPickup : MonoBehaviour
     public AudioClip pickupSound;
     private AudioSource audioSource;
     private bool grabbed = false;
-    private Vector3 lastPosition;
+
+    private Rigidbody rb;
+    private Collider cld;
+
+    private Vector3 oriLocalScale;
+    //private Vector3 lastPosition;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        lastPosition = transform.position;
+        //lastPosition = transform.position;
+        oriLocalScale = transform.lossyScale;
     }
 
     void Update()
     {
-        // 检测物体是否突然移动（被抓起来时会跟着手移动）
-        float moved = Vector3.Distance(transform.position, lastPosition);
-        if (!grabbed && moved > 0.05f)
-        {
-            grabbed = true;
-            if (pickupSound != null && audioSource != null)
-                audioSource.PlayOneShot(pickupSound);
-            StartCoroutine(ResetGrab());
-        }
-        lastPosition = transform.position;
     }
 
-    IEnumerator ResetGrab()
+    public void OnDragQueen(Transform chessHolder)
     {
-        yield return new WaitForSeconds(2f);
+        if(grabbed) return;
+
+        grabbed = true;
+        rb.useGravity = false;
+        cld.enabled = false;
+        
+        transform.SetParent(chessHolder);
+        transform.localPosition = Vector3.zero;
+        transform.localScale = oriLocalScale;
+
+        if (pickupSound != null && audioSource != null)
+            audioSource.PlayOneShot(pickupSound);
+    }
+
+    public void OnCancleDrag()
+    {
         grabbed = false;
+        transform.SetParent(null);
+        transform.localScale = oriLocalScale;
+        rb.useGravity = true;
+        cld.enabled = true;
     }
 }

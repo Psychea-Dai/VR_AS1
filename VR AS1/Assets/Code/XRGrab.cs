@@ -10,7 +10,7 @@ public class XRGrab : MonoBehaviour
     private float raycastDist = 50; //how far away can an object be grabbed
 
     //Close Grab
-    private float grabRaduis = .2f; //close grab raduis
+    private float grabRaduis = 1.5f; //close grab raduis
     Collider[] hitColliders = new Collider[1];
 
     public Transform holdPoint; // where the players hand would be
@@ -34,8 +34,8 @@ public class XRGrab : MonoBehaviour
             //On grip, check for an object to pick up. If an object is already held throw it.
             if (heldObject == null)
             {
-                FarGrab();
-                //CloseGrab(); //swap this for FarGrab to change the pickup behavior
+                //FarGrab();
+                CloseGrab(); //swap this for FarGrab to change the pickup behavior
             }
         }
         else if (!grip && gripState && heldObject != null)
@@ -67,6 +67,10 @@ public class XRGrab : MonoBehaviour
         {
             if (hitColliders[0].transform.parent == null) // Make sure it is not already held
             {
+                if (hitColliders[0].GetComponent<CollectibleItem>())
+                {
+                    hitColliders[0].GetComponent<CollectibleItem>().OnInteract();
+                }
                 StartCoroutine(PickUpObject(hitColliders[0].transform)); //Return the first object on the grabbable layer that is detected
             }
         }
@@ -102,7 +106,7 @@ public class XRGrab : MonoBehaviour
 
         heldRigidbody.isKinematic = false; //regular physics like gravity is active again
         heldRigidbody.linearVelocity = Vector3.zero; //reset the velocity when the rigidbody becomes active again
-        heldRigidbody.AddForce(transform.forward * launchForce, ForceMode.VelocityChange);  //throw in the direction the controller is facing
+        //heldRigidbody.AddForce(transform.forward * launchForce, ForceMode.VelocityChange);  //throw in the direction the controller is facing
         //ForceMode.VelocityChange means add an instant velocity, and the same for any object regardless of mass
 
         heldObject.parent = null; //remove it as a child and set it back on the root level of the hierarchy
