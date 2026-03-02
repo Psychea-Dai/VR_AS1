@@ -150,6 +150,7 @@
           {
             "name": "AudioClip",
             "scenes": [
+              "Assets/Scenes/EndRoom.unity",
               "Assets/Scenes/Main.unity"
             ],
             "dependencyType": 0,
@@ -173,6 +174,7 @@
           {
             "name": "AudioResource",
             "scenes": [
+              "Assets/Scenes/EndRoom.unity",
               "Assets/Scenes/Main.unity"
             ],
             "dependencyType": 0,
@@ -181,6 +183,7 @@
           {
             "name": "AudioSource",
             "scenes": [
+              "Assets/Scenes/EndRoom.unity",
               "Assets/Scenes/Main.unity"
             ],
             "dependencyType": 0,

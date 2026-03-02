@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.Rendering;
 
 public class EndSceneController : MonoBehaviour
 {
     public TextMeshProUGUI endText;
+     public float fadeInDuration = 2f;
+    public float holdDuration = 4f;
     public float waitBeforeQuit = 6f;
 
     void Start()
@@ -14,22 +17,27 @@ public class EndSceneController : MonoBehaviour
 
     IEnumerator EndSequence()
     {
-        // 文字淡入
-        if (endText != null)
+        // 文字从透明淡入
+        endText.alpha = 0f;
+        float t = 0f;
+        while (t < 1f)
         {
-            Color c = endText.color;
-            c.a = 0f;
-            endText.color = c;
-
-            float t = 0f;
-            while (t < 1f)
-            {
-                t += Time.deltaTime * 0.5f;
-                c.a = t;
-                endText.color = c;
-                yield return null;
-            }
+            t += Time.deltaTime / fadeInDuration;
+            endText.alpha = Mathf.Lerp(0f, 1f, t);
+            yield return null;
         }
+
+        yield return new WaitForSeconds(holdDuration);
+
+        // 文字淡出
+        t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / fadeInDuration;
+            endText.alpha = Mathf.Lerp(1f, 0f, t);
+            yield return null;
+        }
+
 
         yield return new WaitForSeconds(waitBeforeQuit);
         Application.Quit();

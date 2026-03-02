@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("Sound")]
     public AudioClip ambienceSource;
     public AudioClip caughtSound;
+    public AudioClip againSound;
     
     void Awake()
     {
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
     {
         collectedCount++;
         Debug.Log($"已收集 {collectedCount}/{totalItems}");
+        
+        if (CandleManager.Instance != null)
+        CandleManager.Instance.LightCandle(collectedCount);
         
         if (hud != null) hud.UpdateCount(collectedCount, totalItems);
         
@@ -68,11 +72,14 @@ public class GameManager : MonoBehaviour
 
     if (caughtSound != null && playerBody != null)
         AudioSource.PlayClipAtPoint(caughtSound, playerBody.position);
+        if (againSound != null)
+        AudioSource.PlayClipAtPoint(againSound, playerBody.position);
 
     // 传送玩家
     if (playerBody != null && respawnPoint != null)
     {
         playerBody.position = respawnPoint.position;
+        
     }
 
     // 重置敌人
