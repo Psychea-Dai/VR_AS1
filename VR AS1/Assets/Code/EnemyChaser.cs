@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyChaser : MonoBehaviour
 {
     public Transform playerTransform;   // 玩家位置（后面连接XR Origin）
-    public float moveSpeed = 0.9f;      // 追踪速度（很慢，0.8米/秒）
+    public float moveSpeed = 0.8f;      // 追踪速度（很慢，0.8米/秒）
     public float catchDistance = 0.8f;  // 多近算抓到玩家
     public float activateDelay = 5f;    // 游戏开始几秒后敌人开始移动
     

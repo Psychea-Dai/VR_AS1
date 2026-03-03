@@ -1136,17 +1136,13 @@
         "dependencies": [
           {
             "name": "ParticleSystem",
-            "scenes": [
-              "Assets/Scenes/Main.unity"
-            ],
+            "scenes": [],
             "dependencyType": 0,
             "icon": null
           },
           {
             "name": "ParticleSystemRenderer",
-            "scenes": [
-              "Assets/Scenes/Main.unity"
-            ],
+            "scenes": [],
             "dependencyType": 0,
             "icon": null
           }
